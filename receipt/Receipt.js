@@ -27,20 +27,23 @@ function isExists(barcodeChildElement) {
 }
 //创建账单
 function createReceipt(barcodes) {
+    console.log(barcodes);
     let sumMoney = 0;
    let result = "Receipts\n";
    result +="------------------------------------------------------------\n";
    for (let i=0; i<barcodes.length; i++){
-       if (!isExists(barcodes[i]))
+       if (!isExists(barcodes[i].id))
            return "错误！barcodes："+barcodes[i].id+" 不存在";
-       let good = getGoods(barcodes[i].id);
+       let good = getDataSource(barcodes[i].id);
        sumMoney += good.price*barcodes[i].count;
        result += good.name+"\t"+good.price+"\t"+barcodes[i].count+"\n";
    }
    result += "------------------------------------------------------------\n";
-    result += "Price:"+sumMoney;
+    result += "Price："+sumMoney;
    return result;
 }
+
+
 //获取货物信息
 function getDataSource(barcodeChildElement) {
     for (let i=0;i<goods.length;i++){
@@ -70,7 +73,8 @@ function arrangeGoods(barcodes) {
             count:goodObject[arr[i]]
         }) ;
     }
+    console.log(result);
     return result;
 }
 
-module.export = {printReceipt,createReceipt,rrangeGoods,isExists,getDataSource};
+module.exports = {printReceipt,createReceipt,arrangeGoods,isExists,getDataSource};
